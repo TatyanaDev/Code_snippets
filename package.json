@@ -1,7 +1,6 @@
 {
   "name": "projects",
   "version": "1.0.0",
-  "description": "",
   "scripts": {
     "start:backend": "cd backend && npm run start",
     "start:frontend": "cd frontend && npm run start",
