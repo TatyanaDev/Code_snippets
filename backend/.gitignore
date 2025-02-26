@@ -45,4 +45,5 @@ next-env.d.ts
 
 .env
 
-/media
+/screenshots
+/technologies
