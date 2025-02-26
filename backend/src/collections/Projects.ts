@@ -3,7 +3,15 @@ import takeScreenshot from '@/utils/takeScreenshot'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
+  admin: {
+    useAsTitle: 'title',
+  },
   fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+    },
     {
       name: 'technologies',
       type: 'relationship',
@@ -53,6 +61,8 @@ export const Projects: CollectionConfig = {
       async ({ data, req }) => {
         if (data.deployUrl && !data.previewImage) {
           try {
+            const formattedTitle = data.title.toLowerCase().replace(/\s+/g, '_')
+            const fileName = `${formattedTitle}_${Date.now()}.png`
             const screenshotBuffer = await takeScreenshot(data.deployUrl)
 
             const screenshotDoc = await req.payload.create({
@@ -63,7 +73,7 @@ export const Projects: CollectionConfig = {
               file: {
                 data: screenshotBuffer,
                 mimetype: 'image/png',
-                name: `${Date.now()}.png`,
+                name: fileName,
                 size: screenshotBuffer.length,
               },
             })

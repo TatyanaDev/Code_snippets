@@ -138,6 +138,7 @@ export interface User {
  */
 export interface Project {
   id: string;
+  title: string;
   technologies: (string | Technology)[];
   type: 'frontend' | 'backend' | 'fullstack';
   isAdaptive: boolean;
@@ -270,6 +271,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
   technologies?: T;
   type?: T;
   isAdaptive?: T;
