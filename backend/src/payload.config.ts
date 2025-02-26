@@ -4,9 +4,10 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import path from 'path'
-
+import { Technologies } from './collections/Technologies'
+import { Screenshots } from './collections/Screenshots'
+import { Projects } from './collections/Projects'
 import { Users } from './collections/Users'
-import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,7 +19,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Projects, Technologies, Screenshots],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
