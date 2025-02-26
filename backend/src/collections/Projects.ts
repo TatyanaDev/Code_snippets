@@ -57,35 +57,37 @@ export const Projects: CollectionConfig = {
     },
   ],
   hooks: {
-    beforeChange: [
-      async ({ data, req }) => {
-        if (data.deployUrl && !data.previewImage) {
-          try {
-            const formattedTitle = data.title.toLowerCase().replace(/\s+/g, '_')
-            const fileName = `${formattedTitle}_${Date.now()}.png`
-            const screenshotBuffer = await takeScreenshot(data.deployUrl)
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation === 'create') {
+          if (doc.deployUrl && !doc.previewImage) {
+            try {
+              const formattedTitle = doc.title.toLowerCase().replace(/\s+/g, '_')
+              const fileName = `${formattedTitle}_${Date.now()}.png`
+              const screenshotBuffer = await takeScreenshot(doc.deployUrl)
 
-            const screenshotDoc = await req.payload.create({
-              collection: 'screenshots',
-              data: {
-                alt: `Screenshot of ${data.deployUrl}`,
-              },
-              file: {
-                data: screenshotBuffer,
-                mimetype: 'image/png',
-                name: fileName,
-                size: screenshotBuffer.length,
-              },
-            })
+              const screenshotDoc = await req.payload.create({
+                collection: 'screenshots',
+                data: {
+                  alt: `Screenshot of ${doc.deployUrl}`,
+                },
+                file: {
+                  data: screenshotBuffer,
+                  mimetype: 'image/png',
+                  name: fileName,
+                  size: screenshotBuffer.length,
+                },
+              })
 
-            data.previewImage = screenshotDoc.id
-          } catch (error) {
-            console.error('Error when creating a screenshot:', error)
+              doc.previewImage = screenshotDoc.id
+            } catch (error) {
+              console.error('Error while creating a screenshot:', error)
+            }
           }
         }
       },
     ],
-    beforeDelete: [
+    afterDelete: [
       async ({ id, req }) => {
         try {
           const project = await req.payload.findByID({
@@ -102,7 +104,7 @@ export const Projects: CollectionConfig = {
             })
           }
         } catch (error) {
-          console.error('Error when deleting a project and a screenshot:', error)
+          console.error('Error while deleting a project and a screenshot:', error)
         }
       },
     ],
