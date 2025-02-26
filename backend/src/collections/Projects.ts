@@ -32,7 +32,6 @@ export const Projects: CollectionConfig = {
     {
       name: 'isAdaptive',
       type: 'checkbox',
-      required: true,
       defaultValue: false,
     },
     {
