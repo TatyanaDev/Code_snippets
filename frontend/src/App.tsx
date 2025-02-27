@@ -1,3 +1,5 @@
-export default function App() {
-  return <div></div>;
-}
+import Projects from "./page/Projects";
+
+const App = () => <Projects />;
+
+export default App;
