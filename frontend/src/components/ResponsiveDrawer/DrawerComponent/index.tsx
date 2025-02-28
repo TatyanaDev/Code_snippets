@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { Avatar, Chip, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Box } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
+import { Avatar, Chip, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Box, Typography, Divider, Toolbar, List, useTheme } from "@mui/material";
 
 const DrawerComponent = () => {
   const [selectedTechs, setSelectedTechs] = useState<number[]>([]);
+  const theme = useTheme();
 
   const technologies = [
     { id: 1, name: "Java", iconUrl: "/path/to/java-icon.png" },
@@ -67,7 +64,8 @@ const DrawerComponent = () => {
             variant="outlined"
             clickable
             sx={{
-              backgroundColor: selectedTechs.includes(technology.id) ? "#b39ddb" : undefined,
+              backgroundColor: selectedTechs.includes(technology.id) ? theme.palette.text.secondary : undefined,
+              borderRadius: 2,
             }}
           />
         ))}

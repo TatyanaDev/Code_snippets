@@ -1,14 +1,8 @@
 import { useState } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import { CssBaseline, IconButton, Typography, Paper, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, experimentalStyled as styled, useTheme, Grid2 as Grid } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import AppBar from "@mui/material/AppBar";
-import Drawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
 import DrawerComponent from "./DrawerComponent";
+import StarBorder from "../StarBorder";
 
 const drawerWidth = 280;
 
@@ -27,6 +21,7 @@ const darkTheme = createTheme({
 const ResponsiveDrawer = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const theme = useTheme();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -40,6 +35,18 @@ const ResponsiveDrawer = () => {
       setMobileOpen(!mobileOpen);
     }
   };
+
+  const Item = styled(Paper)(({ theme }) => ({
+    // backgroundColor: "#ffffff",
+    ...theme.typography.body2,
+    // padding: theme.spacing(2),
+    textAlign: "center",
+    // height: "100%",
+    // color: theme.palette.text.secondary,
+    ...theme.applyStyles("dark", {
+      backgroundColor: "#1a2027",
+    }),
+  }));
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -96,6 +103,15 @@ const ResponsiveDrawer = () => {
 
         <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
           <Toolbar />
+          <Grid container spacing={{ xs: 2, md: 3 }}>
+            {Array.from(Array(26)).map((_, index) => (
+              <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                <StarBorder as="div" color={theme.palette.primary.main}>
+                  <Item>{`Card ${index + 1}`}</Item>
+                </StarBorder>
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       </Box>
     </ThemeProvider>
