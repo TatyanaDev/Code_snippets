@@ -1,8 +1,12 @@
 {
-  "name": "frontend_projects",
+  "name": "frontend_dev_sketches",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.6",
+    "@mui/material": "^6.4.6",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "react": "^19.0.0",

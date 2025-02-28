@@ -1,5 +1,5 @@
 {
-  "name": "projects",
+  "name": "dev_sketches",
   "version": "1.0.0",
   "scripts": {
     "start:backend": "cd backend && npm run start",
