@@ -29,19 +29,7 @@ const DrawerComponent = () => {
       ) : (
         <List sx={{ display: "flex", flexWrap: "wrap", gap: 1, marginBottom: 2 }}>
           {technologies.map((technology) => (
-            <Chip
-              key={technology.id}
-              icon={<img alt={technology.title} src={`${process.env.REACT_APP_BASE_URL}${technology.url}`} style={{ width: 20, height: 20 }} />}
-              label={technology.title}
-              onClick={() => handleTechClick(technology.id, selectedTechnologies, setSelectedTechnologies)}
-              color={selectedTechnologies.includes(technology.id) ? "primary" : "default"}
-              variant="outlined"
-              clickable
-              sx={{
-                backgroundColor: selectedTechnologies.includes(technology.id) ? theme.palette.text.secondary : undefined,
-                borderRadius: 2,
-              }}
-            />
+            <Chip key={technology.id} icon={<img alt={technology.title} src={`${process.env.REACT_APP_BASE_URL}${technology.url}`} style={{ width: 20, height: 20 }} />} label={technology.title} onClick={() => handleTechClick(technology.id, selectedTechnologies, setSelectedTechnologies)} color={selectedTechnologies.includes(technology.id) ? "primary" : "default"} variant="outlined" clickable sx={{ backgroundColor: selectedTechnologies.includes(technology.id) ? theme.palette.text.secondary : undefined, borderRadius: 2 }} />
           ))}
         </List>
       )}

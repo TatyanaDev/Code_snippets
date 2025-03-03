@@ -6,12 +6,7 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => (
-  <Card
-    sx={{
-      m: 2,
-      height: "calc(100% - 32px)",
-    }}
-  >
+  <Card sx={{ height: "calc(100% - 32px)", m: 2 }}>
     <CardMedia component="img" height="250" image={`${process.env.REACT_APP_BASE_URL}${project.previewImage.url}`} alt={project.previewImage.alt} />
 
     <CardContent sx={{ "&:last-child": { paddingBottom: 1 } }}>
@@ -37,15 +32,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => (
         Technologies:
         <List sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
           {project.technologies.map((technology) => (
-            <Chip
-              key={technology.id}
-              icon={<img alt={technology.title} src={`${process.env.REACT_APP_BASE_URL}${technology.url}`} style={{ width: 20, height: 20 }} />}
-              label={technology.title}
-              variant="outlined"
-              sx={{
-                borderRadius: 2,
-              }}
-            />
+            <Chip key={technology.id} icon={<img alt={technology.title} src={`${process.env.REACT_APP_BASE_URL}${technology.url}`} style={{ width: 20, height: 20 }} />} label={technology.title} variant="outlined" sx={{ borderRadius: 2 }} />
           ))}
         </List>
       </Typography>
