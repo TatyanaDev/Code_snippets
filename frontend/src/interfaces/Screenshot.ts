@@ -1,6 +1,6 @@
-export interface Technology {
+export interface Screenshot {
   id: string;
-  title: string;
+  alt: string;
   updatedAt: string;
   createdAt: string;
   url: string;

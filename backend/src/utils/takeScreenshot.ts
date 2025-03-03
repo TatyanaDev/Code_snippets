@@ -5,7 +5,7 @@ export default async function takeScreenshot(url: string): Promise<Buffer> {
   const page = await browser.newPage()
 
   await page.setViewport({ width: 1920, height: 1080 })
-  await page.goto(url, { waitUntil: 'networkidle2' })
+  await page.goto(url, { waitUntil: 'networkidle0' })
 
   const screenshotBuffer = await page.screenshot({ type: 'png' })
 

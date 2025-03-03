@@ -126,7 +126,7 @@ export interface Project {
   type: 'frontend' | 'backend' | 'fullstack';
   isAdaptive?: boolean | null;
   deployUrl: string;
-  codeUrl: string;
+  sourceCodeUrl: string;
   previewImage?: (string | null) | Screenshot;
   updatedAt: string;
   createdAt: string;
@@ -261,7 +261,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   type?: T;
   isAdaptive?: T;
   deployUrl?: T;
-  codeUrl?: T;
+  sourceCodeUrl?: T;
   previewImage?: T;
   updatedAt?: T;
   createdAt?: T;
