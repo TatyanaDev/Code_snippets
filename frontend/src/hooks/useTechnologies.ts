@@ -17,6 +17,7 @@ export const useTechnologies = () => {
         setTechnologies(data.docs);
       } catch (err) {
         setError("Failed to fetch technologies");
+
         console.error("Error while getting technologies:", err);
       } finally {
         setIsLoading(false);

@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { CssBaseline, IconButton, Typography, Paper, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, experimentalStyled as styled, useTheme, Grid2 as Grid } from "@mui/material";
+import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useProjects } from "../../hooks/useProjects";
 import DrawerComponent from "./DrawerComponent";
+import ProjectCard from "./ProjectCard";
 import StarBorder from "../StarBorder";
 
 const drawerWidth = 280;
@@ -21,7 +23,7 @@ const darkTheme = createTheme({
 const ResponsiveDrawer = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
-  const theme = useTheme();
+  const { projects, isLoading } = useProjects();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -35,18 +37,6 @@ const ResponsiveDrawer = () => {
       setMobileOpen(!mobileOpen);
     }
   };
-
-  const Item = styled(Paper)(({ theme }) => ({
-    // backgroundColor: "#ffffff",
-    ...theme.typography.body2,
-    // padding: theme.spacing(2),
-    textAlign: "center",
-    // height: "100%",
-    // color: theme.palette.text.secondary,
-    ...theme.applyStyles("dark", {
-      backgroundColor: "#1a2027",
-    }),
-  }));
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -103,15 +93,22 @@ const ResponsiveDrawer = () => {
 
         <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
           <Toolbar />
-          <Grid container spacing={{ xs: 2, md: 3 }}>
-            {Array.from(Array(26)).map((_, index) => (
-              <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                <StarBorder as="div" color={theme.palette.primary.main}>
-                  <Item>{`Card ${index + 1}`}</Item>
-                </StarBorder>
-              </Grid>
-            ))}
-          </Grid>
+
+          {isLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 112px)" }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Grid container spacing={{ xs: 2, md: 3 }}>
+              {projects.map((project) => (
+                <Grid key={project.id} size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
+                  <StarBorder as="div" color="#7c4dff">
+                    <ProjectCard project={project} />
+                  </StarBorder>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </Box>
       </Box>
     </ThemeProvider>

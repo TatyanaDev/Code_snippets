@@ -3,6 +3,9 @@ import takeScreenshot from '@/utils/takeScreenshot'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
+  access: {
+    read: () => true,
+  },
   admin: {
     useAsTitle: 'title',
   },
@@ -40,7 +43,7 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
-      name: 'codeUrl',
+      name: 'sourceCodeUrl',
       type: 'text',
       required: true,
     },
@@ -56,32 +59,30 @@ export const Projects: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [
-      async ({ doc, operation, req }) => {
-        if (operation === 'create') {
-          if (doc.deployUrl && !doc.previewImage) {
-            try {
-              const formattedTitle = doc.title.toLowerCase().replace(/\s+/g, '_')
-              const fileName = `${formattedTitle}_${Date.now()}.png`
-              const screenshotBuffer = await takeScreenshot(doc.deployUrl)
+    beforeChange: [
+      async ({ data, operation, req }) => {
+        if (operation === 'create' && data.deployUrl && !data.previewImage) {
+          try {
+            const formattedTitle = data.title.toLowerCase().replace(/\s+/g, '_')
+            const fileName = `${formattedTitle}_${Date.now()}.png`
+            const screenshotBuffer = await takeScreenshot(data.deployUrl)
 
-              const screenshotDoc = await req.payload.create({
-                collection: 'screenshots',
-                data: {
-                  alt: `Screenshot of ${doc.deployUrl}`,
-                },
-                file: {
-                  data: screenshotBuffer,
-                  mimetype: 'image/png',
-                  name: fileName,
-                  size: screenshotBuffer.length,
-                },
-              })
+            const screenshotDoc = await req.payload.create({
+              collection: 'screenshots',
+              data: {
+                alt: `Screenshot of ${data.deployUrl}`,
+              },
+              file: {
+                data: screenshotBuffer,
+                mimetype: 'image/png',
+                name: fileName,
+                size: screenshotBuffer.length,
+              },
+            })
 
-              doc.previewImage = screenshotDoc.id
-            } catch (error) {
-              console.error('Error while creating a screenshot:', error)
-            }
+            data.previewImage = screenshotDoc.id
+          } catch (error) {
+            console.error('Error while creating a screenshot:', error)
           }
         }
       },
