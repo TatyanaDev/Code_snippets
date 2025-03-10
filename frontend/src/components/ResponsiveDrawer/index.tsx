@@ -1,6 +1,7 @@
-import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination } from "@mui/material";
+import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination, Tooltip, styled } from "@mui/material";
 import { useState, ChangeEvent, FC } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
+import InfoIcon from "@mui/icons-material/Info";
 import useProjects from "../../hooks/useProjects";
 import DrawerComponent from "./DrawerComponent";
 import { Filters } from "../../interfaces";
@@ -19,6 +20,16 @@ const darkTheme = createTheme({
       secondary: "#b39ddb",
     },
   },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "#424242",
+          maxWidth: "340px",
+        },
+      },
+    },
+  },
 });
 
 const ResponsiveDrawer: FC = () => {
@@ -26,6 +37,7 @@ const ResponsiveDrawer: FC = () => {
   const { projects, isLoading, currentPage, setCurrentPage, totalPages } = useProjects(12, filters);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -42,19 +54,66 @@ const ResponsiveDrawer: FC = () => {
 
   const handlePageChange = (event: ChangeEvent<unknown>, newPage: number) => setCurrentPage(newPage);
 
+  const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
+
+  const CustomTypography = styled(Typography)(({ theme }) => ({
+    fontSize: "0.875rem",
+    "& span": {
+      color: theme.palette.primary.main,
+    },
+    "& a": {
+      color: theme.palette.text.secondary,
+    },
+  }));
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
 
         <AppBar position="fixed" sx={{ width: { sm: `calc(100% - ${drawerWidth}px)` }, ml: { sm: `${drawerWidth}px` } }}>
-          <Toolbar>
-            <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
+          <Toolbar sx={{ justifyContent: "space-between" }}>
+            <IconButton aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
               Dev Sketches by Tatyana Karpenko
             </Typography>
+
+            <Tooltip
+              enterTouchDelay={0}
+              arrow
+              title={
+                <>
+                  <CustomTypography>
+                    <span>Project:</span>&nbsp;Dev Sketches
+                  </CustomTypography>
+                  <CustomTypography>
+                    <span>Description:</span>&nbsp;Dev Sketches is a collection of various small projects that I've worked on over time. It’s not an exhaustive showcase of my skills, but rather a practical compilation of the different tasks I’ve encountered along my learning journey
+                  </CustomTypography>
+                  <CustomTypography>
+                    <span>Purpose:</span>&nbsp;This project is meant to serve as a casual glimpse into the variety of challenges I've addressed as I've grown as a developer. It's a way to keep all these experiences in one accessible location, not just for showcasing but also as a personal inventory of my developmental milestones
+                  </CustomTypography>
+                  <CustomTypography>
+                    <span>Technology Stack:</span>&nbsp;Frontend: React, Material UI; Backend: PayloadCMS, MongoDB
+                  </CustomTypography>
+                  <CustomTypography>
+                    <span>Code Repository:</span>&nbsp;
+                    <a href="https://github.com/TatyanaDev/Dev_sketches" target="_blank" rel="noopener noreferrer">
+                      Dev Sketches Repository
+                    </a>
+                  </CustomTypography>
+                </>
+              }
+              open={tooltipOpen}
+              disableFocusListener
+              disableHoverListener
+              disableTouchListener
+            >
+              <IconButton onClick={toggleTooltip}>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
 
