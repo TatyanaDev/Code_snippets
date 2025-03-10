@@ -1,6 +1,6 @@
-import { Technology } from "./Technology";
+import Technology from "./Technology";
 
-export interface Filters {
+export default interface Filters {
   isAdaptive: boolean | null;
   technologies: Technology[];
   type: string;

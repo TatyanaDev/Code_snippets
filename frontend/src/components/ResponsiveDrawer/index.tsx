@@ -1,9 +1,9 @@
 import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination } from "@mui/material";
 import { useState, ChangeEvent, FC } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useProjects } from "../../hooks/useProjects";
-import { Filters } from "../../interfaces/Filters";
+import useProjects from "../../hooks/useProjects";
 import DrawerComponent from "./DrawerComponent";
+import { Filters } from "../../interfaces";
 import ProjectCard from "./ProjectCard";
 import StarBorder from "../StarBorder";
 

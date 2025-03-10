@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, Typography, Link, Chip, List, Box } from "@mui/material";
 import { FC } from "react";
-import { Project } from "../../../interfaces/Project";
+import { Project } from "../../../interfaces";
 
 interface ProjectCardProps {
   project: Project;

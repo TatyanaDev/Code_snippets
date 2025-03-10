@@ -1,4 +1,4 @@
-export interface Screenshot {
+export default interface Screenshot {
   id: string;
   alt: string;
   updatedAt: string;

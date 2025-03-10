@@ -1,7 +1,7 @@
-import { Technology } from "./Technology";
-import { Screenshot } from "./Screenshot";
+import Technology from "./Technology";
+import Screenshot from "./Screenshot";
 
-export interface Project {
+export default interface Project {
   id: string;
   title: string;
   technologies: Technology[];

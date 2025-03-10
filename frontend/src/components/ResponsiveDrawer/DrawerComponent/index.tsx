@@ -1,8 +1,7 @@
 import { Box, Chip, CircularProgress, Divider, FormControl, FormControlLabel, FormLabel, InputLabel, List, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, Toolbar, Typography, useTheme } from "@mui/material";
 import { FC, ChangeEvent } from "react";
-import { useTechnologies } from "../../../hooks/useTechnologies";
-import { Technology } from "../../../interfaces/Technology";
-import { Filters } from "../../../interfaces/Filters";
+import useTechnologies from "../../../hooks/useTechnologies";
+import { Technology, Filters } from "../../../interfaces";
 
 interface DrawerComponentProps {
   filters: Filters;

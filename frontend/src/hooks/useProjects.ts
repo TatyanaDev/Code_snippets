@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { stringify } from "qs-esm";
 import axios from "axios";
-import { Project } from "../interfaces/Project";
-import { Filters } from "../interfaces/Filters";
+import { Filters, Project } from "../interfaces";
 
 interface Condition {
   [key: string]: {
@@ -20,7 +19,7 @@ interface QueryFilters {
   and?: Condition[];
 }
 
-export const useProjects = (itemsPerPage = 12, filters: Filters) => {
+const useProjects = (itemsPerPage = 12, filters: Filters) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -70,3 +69,5 @@ export const useProjects = (itemsPerPage = 12, filters: Filters) => {
 
   return { projects: paginatedProjects, isLoading, error, currentPage, setCurrentPage, totalPages };
 };
+
+export default useProjects;

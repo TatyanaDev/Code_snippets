@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Technology } from "../interfaces/Technology";
+import { Technology } from "../interfaces";
 
-export const useTechnologies = () => {
+const useTechnologies = () => {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,3 +27,5 @@ export const useTechnologies = () => {
 
   return { technologies, isLoading, error };
 };
+
+export default useTechnologies;
