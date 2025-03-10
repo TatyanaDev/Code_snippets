@@ -2,9 +2,26 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  /* Firefox */
+  scrollbar-color: #7c4dff #121212;
 }
 
 body {
   background: linear-gradient(92deg, #000000, #0c0317, #130625, #150935, #150b45, #140b56, #110a67, #090979);
   font-family: sans-serif;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7c4dff;
+  border-radius: 10px;
 }

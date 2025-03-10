@@ -40,6 +40,7 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters }) => {
       <Divider sx={{ marginBottom: 2 }} />
 
       <Typography sx={{ marginBottom: 1, color: "text.secondary" }}>Technologies</Typography>
+
       {isLoading ? (
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 2 }}>
           <CircularProgress />
