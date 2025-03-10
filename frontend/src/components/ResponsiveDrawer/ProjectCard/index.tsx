@@ -1,11 +1,12 @@
 import { Card, CardContent, CardMedia, Typography, Link, Chip, List, Box } from "@mui/material";
+import { FC } from "react";
 import { Project } from "../../../interfaces/Project";
 
 interface ProjectCardProps {
   project: Project;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => (
+const ProjectCard: FC<ProjectCardProps> = ({ project }) => (
   <Card sx={{ height: "calc(100% - 32px)", m: 2 }}>
     <CardMedia component="img" height="250" image={`${process.env.REACT_APP_BASE_URL}${project.previewImage.url}`} alt={project.previewImage.alt} />
 

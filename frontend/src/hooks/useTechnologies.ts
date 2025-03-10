@@ -15,10 +15,10 @@ export const useTechnologies = () => {
         const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/technologies`);
 
         setTechnologies(data.docs);
-      } catch (err) {
+      } catch (error) {
         setError("Failed to fetch technologies");
 
-        console.error("Error while getting technologies:", err);
+        console.error("Error while getting technologies:", error);
       } finally {
         setIsLoading(false);
       }

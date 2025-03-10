@@ -1,7 +1,8 @@
-import { useState, ChangeEvent } from "react";
 import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination } from "@mui/material";
+import { useState, ChangeEvent, FC } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useProjects } from "../../hooks/useProjects";
+import { Filters } from "../../interfaces/Filters";
 import DrawerComponent from "./DrawerComponent";
 import ProjectCard from "./ProjectCard";
 import StarBorder from "../StarBorder";
@@ -20,8 +21,9 @@ const darkTheme = createTheme({
   },
 });
 
-const ResponsiveDrawer = () => {
-  const { projects, isLoading, currentPage, setCurrentPage, totalPages } = useProjects(12);
+const ResponsiveDrawer: FC = () => {
+  const [filters, setFilters] = useState<Filters>({ isAdaptive: null, technologies: [], type: "All" });
+  const { projects, isLoading, currentPage, setCurrentPage, totalPages } = useProjects(12, filters);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
 
@@ -58,11 +60,11 @@ const ResponsiveDrawer = () => {
 
         <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="filters">
           <Drawer variant="temporary" open={mobileOpen} onTransitionEnd={handleDrawerTransitionEnd} onClose={handleDrawerClose} sx={{ display: { xs: "block", sm: "none" }, "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth } }} slotProps={{ root: { keepMounted: true } }}>
-            <DrawerComponent />
+            <DrawerComponent filters={filters} setFilters={setFilters} />
           </Drawer>
 
           <Drawer variant="permanent" sx={{ display: { xs: "none", sm: "block" }, "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth } }} open>
-            <DrawerComponent />
+            <DrawerComponent filters={filters} setFilters={setFilters} />
           </Drawer>
         </Box>
 
@@ -73,7 +75,7 @@ const ResponsiveDrawer = () => {
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 112px)" }}>
               <CircularProgress />
             </Box>
-          ) : (
+          ) : projects.length > 0 ? (
             <>
               <Grid container spacing={{ xs: 2, md: 3 }} sx={{ justifyContent: "center" }}>
                 {projects.map((project) => (
@@ -88,6 +90,15 @@ const ResponsiveDrawer = () => {
                 <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
               </Box>
             </>
+          ) : (
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "calc(100vh - 112px)", textAlign: "center" }}>
+              <Typography variant="h5" color="text.secondary" sx={{ mb: 2 }}>
+                No projects found
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 400 }}>
+                Try adjusting your filters or resetting them to find more projects.
+              </Typography>
+            </Box>
           )}
         </Box>
       </Box>
