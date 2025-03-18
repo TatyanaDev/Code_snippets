@@ -13,7 +13,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:5000',
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   admin: {
     user: Users.slug,
   },
@@ -28,4 +28,5 @@ export default buildConfig({
   }),
   sharp,
   cors: ['http://localhost:3000', 'https://tatyanadev-dev-sketches.netlify.app/'],
+  csrf: ['http://localhost:3000', 'https://tatyanadev-dev-sketches.netlify.app/'],
 })
