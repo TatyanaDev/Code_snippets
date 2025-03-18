@@ -61,6 +61,9 @@ const ResponsiveDrawer: FC = () => {
     "& span": {
       color: theme.palette.primary.main,
     },
+    "& span:not(:first-of-type)": {
+      color: theme.palette.text.secondary,
+    },
     "& a": {
       color: theme.palette.text.secondary,
     },
@@ -95,7 +98,7 @@ const ResponsiveDrawer: FC = () => {
                     <span>Purpose:</span>&nbsp;This project is meant to serve as a casual glimpse into the variety of challenges I've addressed as I've grown as a developer. It's a way to keep all these experiences in one accessible location, not just for showcasing but also as a personal inventory of my developmental milestones
                   </CustomTypography>
                   <CustomTypography>
-                    <span>Technology Stack:</span>&nbsp;Frontend: React, Material UI; Backend: PayloadCMS, MongoDB
+                    <span>Technology Stack:</span>&nbsp;<span>Frontend:</span>&nbsp;React, Material UI; <span>Backend:</span>&nbsp;PayloadCMS, MongoDB
                   </CustomTypography>
                   <CustomTypography>
                     <span>Code Repository:</span>&nbsp;
