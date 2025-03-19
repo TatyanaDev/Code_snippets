@@ -48,7 +48,7 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters }) => {
       ) : (
         <List sx={{ display: "flex", flexWrap: "wrap", gap: 1, marginBottom: 2 }}>
           {technologies.map((technology: Technology) => (
-            <Chip key={technology.id} icon={<img alt={technology.title} src={`${process.env.REACT_APP_BASE_URL}${technology.url}`} style={{ width: 20, height: 20 }} />} label={technology.title} onClick={() => handleTechnologyClick(technology.id)} color={filters.technologies.some(({ id }) => id === technology.id) ? "primary" : "default"} variant="outlined" clickable sx={{ backgroundColor: filters.technologies.some(({ id }) => id === technology.id) ? theme.palette.text.secondary : undefined, borderRadius: 2 }} />
+            <Chip key={technology.id} icon={<img alt={technology.title} src={technology.url} style={{ width: 20, height: 20 }} />} label={technology.title} onClick={() => handleTechnologyClick(technology.id)} color={filters.technologies.some(({ id }) => id === technology.id) ? "primary" : "default"} variant="outlined" clickable sx={{ backgroundColor: filters.technologies.some(({ id }) => id === technology.id) ? theme.palette.text.secondary : undefined, borderRadius: 2 }} />
           ))}
         </List>
       )}

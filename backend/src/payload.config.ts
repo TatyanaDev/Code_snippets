@@ -27,6 +27,6 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-  cors: ['http://localhost:3000', 'https://tatyanadev-dev-sketches.netlify.app/'],
-  csrf: ['http://localhost:3000', 'https://tatyanadev-dev-sketches.netlify.app/'],
+  cors: ['http://localhost:3000', 'https://tatyanadev-dev-sketches.netlify.app'],
+  csrf: ['http://localhost:3000', 'https://tatyanadev-dev-sketches.netlify.app'],
 })
