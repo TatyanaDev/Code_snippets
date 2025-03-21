@@ -2,8 +2,8 @@
   "name": "dev_sketches",
   "version": "1.0.0",
   "scripts": {
-    "dev:backend": "cd backend && PORT=5000 npm run dev",
-    "start:backend": "cd backend && PORT=5000 npm run start",
+    "dev:backend": "cd backend && npm run dev",
+    "start:backend": "cd backend && npm run start",
     "start:frontend": "cd frontend && npm run start",
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "dev": "concurrently \"npm run dev:backend\" \"npm run start:frontend\""
