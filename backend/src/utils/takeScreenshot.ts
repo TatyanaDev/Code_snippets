@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
 
 export default async function takeScreenshot(url: string): Promise<Buffer> {
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
   const page = await browser.newPage()
 
   await page.setViewport({ width: 1920, height: 1080 })
