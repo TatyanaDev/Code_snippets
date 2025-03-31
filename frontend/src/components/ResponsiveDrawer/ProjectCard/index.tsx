@@ -8,7 +8,7 @@ interface ProjectCardProps {
 
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => (
   <Card sx={{ height: "calc(100% - 32px)", m: 2 }}>
-    <CardMedia component="img" height="250" image={project.previewImage.url} alt={project.previewImage.alt} />
+    <CardMedia component="img" height="250" image={project.previewImage?.url} alt={project.previewImage?.alt} />
 
     <CardContent sx={{ "&:last-child": { paddingBottom: 1 } }}>
       <Typography gutterBottom variant="h5" component="div">
