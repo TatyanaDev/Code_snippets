@@ -9,6 +9,7 @@ export default async function takeScreenshot(url: string): Promise<Buffer> {
       '--headless',
       '--disable-software-rasterizer',
     ],
+    headless: true,
     dumpio: true,
     timeout: 0,
   })
