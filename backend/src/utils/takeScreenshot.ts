@@ -1,21 +1,12 @@
 import puppeteer, { Browser } from 'puppeteer'
+import sharp from 'sharp'
 
 export default async function takeScreenshot(url: string): Promise<Buffer> {
   let browser: Browser | null = null
 
   try {
     browser = await puppeteer.launch({
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-gpu',
-        '--headless',
-        '--disable-software-rasterizer',
-        '--remote-debugging-port=9222',
-      ],
-      headless: true,
-      dumpio: true,
-      timeout: 0,
+      args: ['--no-sandbox'],
     })
 
     const page = await browser.newPage()
@@ -26,9 +17,12 @@ export default async function takeScreenshot(url: string): Promise<Buffer> {
 
     const screenshotBuffer: Uint8Array = await page.screenshot({ type: 'png' })
 
-    const buffer = Buffer.from(screenshotBuffer)
+    const compressedImage = await sharp(screenshotBuffer)
+      .resize({ height: 250 })
+      .png({ quality: 80 })
+      .toBuffer()
 
-    return buffer
+    return compressedImage
   } catch (error) {
     console.error('Error while taking screenshot:', error)
     if (browser) {
