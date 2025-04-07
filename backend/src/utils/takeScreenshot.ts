@@ -1,20 +1,20 @@
-import puppeteer, { Browser } from 'puppeteer'
+import { chromium, Browser } from 'playwright'
 import sharp from 'sharp'
 
 export default async function takeScreenshot(url: string): Promise<Buffer> {
   let browser: Browser | null = null
 
   try {
-    browser = await puppeteer.launch({
+    browser = await chromium.launch({
+      headless: true,
       args: ['--no-sandbox'],
-      timeout: 0,
     })
 
     const page = await browser.newPage()
 
-    await page.setViewport({ width: 1920, height: 1080 })
+    await page.setViewportSize({ width: 1920, height: 1080 })
 
-    await page.goto(url, { waitUntil: 'networkidle0', timeout: 0 })
+    await page.goto(url, { waitUntil: 'networkidle' })
 
     const screenshotBuffer: Uint8Array = await page.screenshot({ type: 'png' })
 

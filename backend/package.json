@@ -22,7 +22,7 @@
     "graphql": "^16.8.1",
     "next": "15.1.5",
     "payload": "latest",
-    "puppeteer": "^24.2.1",
+    "playwright": "^1.51.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "sharp": "^0.33.5"

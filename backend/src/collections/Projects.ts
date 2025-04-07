@@ -63,8 +63,7 @@ export const Projects: CollectionConfig = {
       async ({ data, operation, req }) => {
         if (operation === 'create' && data.deployUrl && !data.previewImage) {
           try {
-            const formattedTitle = data.title.toLowerCase().replace(/\s+/g, '_')
-            const fileName = `${formattedTitle}_${Date.now()}.png`
+            const formattedTitle = `${data.title.toLowerCase().replace(/\s+/g, '-')}_${Date.now()}.png`
             const screenshotBuffer = await takeScreenshot(data.deployUrl)
 
             const screenshotDoc = await req.payload.create({
@@ -75,7 +74,7 @@ export const Projects: CollectionConfig = {
               file: {
                 data: screenshotBuffer,
                 mimetype: 'image/png',
-                name: fileName,
+                name: formattedTitle,
                 size: screenshotBuffer.length,
               },
             })
