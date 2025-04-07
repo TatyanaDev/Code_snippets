@@ -7,6 +7,7 @@ export default async function takeScreenshot(url: string): Promise<Buffer> {
   try {
     browser = await puppeteer.launch({
       args: ['--no-sandbox'],
+      timeout: 0,
     })
 
     const page = await browser.newPage()
