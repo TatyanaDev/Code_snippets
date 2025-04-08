@@ -1,22 +1,12 @@
-import { chromium, Browser } from 'playwright'
+import axios from 'axios'
 import sharp from 'sharp'
 
 export default async function takeScreenshot(url: string): Promise<Buffer> {
-  let browser: Browser | null = null
-
   try {
-    browser = await chromium.launch({
-      headless: true,
-      args: ['--no-sandbox'],
-    })
+    const apiUrl = `https://api.screenshotmachine.com/?key=${process.env.SCREENSHOTMACHINE_API_KEY}&url=${url}&device=desktop&dimension=1920x1080&format=png`
 
-    const page = await browser.newPage()
-
-    await page.setViewportSize({ width: 1920, height: 1080 })
-
-    await page.goto(url, { waitUntil: 'networkidle' })
-
-    const screenshotBuffer: Uint8Array = await page.screenshot({ type: 'png' })
+    const response = await axios.get(apiUrl, { responseType: 'arraybuffer' })
+    const screenshotBuffer = Buffer.from(response.data)
 
     const compressedImage = await sharp(screenshotBuffer)
       .resize({ height: 250 })
@@ -26,13 +16,6 @@ export default async function takeScreenshot(url: string): Promise<Buffer> {
     return compressedImage
   } catch (error) {
     console.error('Error while taking screenshot:', error)
-    if (browser) {
-      await browser.close()
-    }
     throw error
-  } finally {
-    if (browser) {
-      await browser.close()
-    }
   }
 }
