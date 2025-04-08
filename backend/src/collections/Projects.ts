@@ -86,7 +86,7 @@ export const Projects: CollectionConfig = {
         }
       },
     ],
-    afterDelete: [
+    beforeDelete: [
       async ({ id, req }) => {
         try {
           const project = await req.payload.findByID({
@@ -101,9 +101,11 @@ export const Projects: CollectionConfig = {
               collection: 'screenshots',
               id: screenshotId,
             })
+
+            console.log('Screenshot deleted successfully')
           }
         } catch (error) {
-          console.error('Error while deleting a project and a screenshot:', error)
+          console.error('Error while deleting a screenshot:', error)
         }
       },
     ],
