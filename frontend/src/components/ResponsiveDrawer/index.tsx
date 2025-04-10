@@ -26,6 +26,7 @@ const darkTheme = createTheme({
         tooltip: {
           backgroundColor: "#424242",
           maxWidth: "340px",
+          padding: "10px",
         },
       },
     },
