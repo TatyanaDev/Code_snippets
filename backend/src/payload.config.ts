@@ -15,6 +15,9 @@ export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   admin: {
     user: Users.slug,
+    meta: {
+      titleSuffix: '- Code Snippets',
+    },
   },
   collections: [Projects, Technologies, Screenshots, Users],
   editor: lexicalEditor(),

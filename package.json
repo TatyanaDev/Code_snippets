@@ -1,5 +1,5 @@
 {
-  "name": "dev_sketches",
+  "name": "code_snippets",
   "version": "1.0.0",
   "scripts": {
     "dev:backend": "cd backend && npm run dev",

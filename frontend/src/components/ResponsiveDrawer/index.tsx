@@ -81,7 +81,7 @@ const ResponsiveDrawer: FC = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              Dev Sketches by Tatyana Karpenko
+              Code Snippets by Tatyana Karpenko
             </Typography>
 
             <Tooltip
@@ -90,10 +90,10 @@ const ResponsiveDrawer: FC = () => {
               title={
                 <>
                   <CustomTypography>
-                    <span>Project:</span>&nbsp;Dev Sketches
+                    <span>Project:</span>&nbsp;Code Snippets
                   </CustomTypography>
                   <CustomTypography>
-                    <span>Description:</span>&nbsp;Dev Sketches is a collection of various small projects that I've worked on over time. It’s not an exhaustive showcase of my skills, but rather a practical compilation of the different tasks I’ve encountered along my learning journey
+                    <span>Description:</span>&nbsp;Code Snippets is a collection of various small projects that I've worked on over time. It’s not an exhaustive showcase of my skills, but rather a practical compilation of the different tasks I’ve encountered along my learning journey
                   </CustomTypography>
                   <CustomTypography>
                     <span>Purpose:</span>&nbsp;This project is meant to serve as a casual glimpse into the variety of challenges I've addressed as I've grown as a developer. It's a way to keep all these experiences in one accessible location, not just for showcasing but also as a personal inventory of my developmental milestones
@@ -102,9 +102,9 @@ const ResponsiveDrawer: FC = () => {
                     <span>Technology Stack:</span>&nbsp;<span>Frontend:</span>&nbsp;React, Material UI; <span>Backend:</span>&nbsp;PayloadCMS, MongoDB
                   </CustomTypography>
                   <CustomTypography>
-                    <span>Code Repository:</span>&nbsp;
-                    <a href="https://github.com/TatyanaDev/Dev_sketches" target="_blank" rel="noopener noreferrer">
-                      Dev Sketches Repository
+                    <span>Source Code:</span>&nbsp;
+                    <a href="https://github.com/TatyanaDev/Code_snippets" target="_blank" rel="noopener noreferrer">
+                      Code Snippets Repository
                     </a>
                   </CustomTypography>
                 </>
