@@ -6,7 +6,7 @@ This repository serves as a centralized hub for all the projects available in my
 
 To get an overview of all my projects at once, simply click on the following link to visit my personal project showcase:
 
-[Visit My Project Showcase](https://tatyanadev-dev-sketches.netlify.app/)
+[Visit My Project Showcase](https://tatyanadev-code-snippets.netlify.app/)
 
 This link will take you to a quick-access page where you can browse and explore all the projects I’ve built so far.
 
