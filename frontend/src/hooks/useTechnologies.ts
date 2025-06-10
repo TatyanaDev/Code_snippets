@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { stringify } from "qs-esm";
 import axios from "axios";
 import { Technology } from "../interfaces";
 
@@ -11,8 +12,10 @@ const useTechnologies = () => {
     (async () => {
       setIsLoading(true);
 
+      const queryParams = stringify({ limit: 0 }, { addQueryPrefix: true, encode: true });
+
       try {
-        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/technologies`);
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/technologies${queryParams}`);
 
         setTechnologies(data.docs);
       } catch (error) {
