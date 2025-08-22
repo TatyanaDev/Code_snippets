@@ -12,17 +12,17 @@
     "start": "cross-env NODE_ENV=production node dist/server.js"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "latest",
-    "@payloadcms/next": "latest",
-    "@payloadcms/payload-cloud": "latest",
-    "@payloadcms/richtext-lexical": "latest",
+    "@payloadcms/db-mongodb": "3.33.0",
+    "@payloadcms/next": "3.33.0",
+    "@payloadcms/payload-cloud": "3.33.0",
+    "@payloadcms/richtext-lexical": "3.33.0",
     "axios": "^1.8.4",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "express": "^4.21.2",
     "graphql": "^16.8.1",
     "next": "15.1.5",
-    "payload": "latest",
+    "payload": "3.33.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "sharp": "^0.33.5"
