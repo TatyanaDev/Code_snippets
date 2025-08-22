@@ -1,4 +1,4 @@
-import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination, Tooltip, styled } from "@mui/material";
+import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination, Tooltip, Chip, styled } from "@mui/material";
 import { useState, ChangeEvent, FC } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
@@ -93,10 +93,10 @@ const ResponsiveDrawer: FC = () => {
                     <span>Project:</span>&nbsp;Code Snippets
                   </CustomTypography>
                   <CustomTypography>
-                    <span>Description:</span>&nbsp;Code Snippets is a collection of various small projects that I've worked on over time. It’s not an exhaustive showcase of my skills, but rather a practical compilation of the different tasks I’ve encountered along my learning journey
+                    <span>Description:</span>&nbsp;Code Snippets is a collection of various small projects that I've worked on over time. It’s not an exhaustive showcase of my skills, but rather a practical compilation of the different tasks I’ve encountered along my learning journey.
                   </CustomTypography>
                   <CustomTypography>
-                    <span>Purpose:</span>&nbsp;This project is meant to serve as a casual glimpse into the variety of challenges I've addressed as I've grown as a developer. It's a way to keep all these experiences in one accessible location, not just for showcasing but also as a personal inventory of my developmental milestones
+                    <span>Purpose:</span>&nbsp;This project is meant to serve as a casual glimpse into the variety of challenges I've addressed as I've grown as a developer. It's a way to keep all these experiences in one accessible location, not just for showcasing but also as a personal inventory of my developmental milestones.
                   </CustomTypography>
                   <CustomTypography>
                     <span>Technology Stack:</span>&nbsp;<span>Frontend:</span>&nbsp;React, Material UI; <span>Backend:</span>&nbsp;PayloadCMS, MongoDB
@@ -114,9 +114,7 @@ const ResponsiveDrawer: FC = () => {
               disableHoverListener
               disableTouchListener
             >
-              <IconButton onClick={toggleTooltip}>
-                <InfoIcon />
-              </IconButton>
+              <Chip icon={<InfoIcon style={{ color: "#e0e0e0" }} />} label="Information" onClick={toggleTooltip} color={tooltipOpen ? "primary" : "default"} variant="outlined" clickable sx={{ backgroundColor: tooltipOpen ? "text.secondary" : undefined, borderRadius: 2 }} />
             </Tooltip>
           </Toolbar>
         </AppBar>
