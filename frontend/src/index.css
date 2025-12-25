@@ -9,6 +9,7 @@
 body {
   background: linear-gradient(92deg, #000000, #0c0317, #130625, #150935, #150b45, #140b56, #110a67, #090979);
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
