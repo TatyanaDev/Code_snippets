@@ -19,22 +19,16 @@ interface QueryFilters {
   and?: Condition[];
 }
 
-const useProjects = (itemsPerPage = 12, filters: Filters) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+const useProjects = (filters: Filters) => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [totalPages, setTotalPages] = useState<number>(0);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filters]);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
 
-      const techFilters: Condition[] = filters.technologies.map(({ id }) => ({ technologies: { equals: id } }));
+      const techFilters = filters.technologies.map(({ id }) => ({ technologies: { equals: id } }));
 
       const query: QueryFilters = {
         isAdaptive: filters.isAdaptive !== null ? { equals: filters.isAdaptive.toString() } : undefined,
@@ -54,7 +48,6 @@ const useProjects = (itemsPerPage = 12, filters: Filters) => {
         const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/projects${queryParams}`);
 
         setProjects(data.docs);
-        setTotalPages(Math.ceil(data.docs.length / itemsPerPage));
       } catch (error) {
         setError("Failed to fetch projects");
 
@@ -63,11 +56,9 @@ const useProjects = (itemsPerPage = 12, filters: Filters) => {
         setIsLoading(false);
       }
     })();
-  }, [itemsPerPage, filters]);
+  }, [filters]);
 
-  const paginatedProjects = projects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-  return { projects: paginatedProjects, isLoading, error, currentPage, setCurrentPage, totalPages };
+  return { projects, isLoading, error };
 };
 
 export default useProjects;

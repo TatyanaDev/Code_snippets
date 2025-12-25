@@ -1,5 +1,5 @@
 import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination, Tooltip, Chip, styled, useMediaQuery } from "@mui/material";
-import { useState, ChangeEvent, FC } from "react";
+import { useState, ChangeEvent, FC, useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
 import useProjects from "../../hooks/useProjects";
@@ -9,6 +9,7 @@ import ProjectCard from "./ProjectCard";
 import StarBorder from "../StarBorder";
 
 const drawerWidth = 280;
+const PER_PAGE = 12;
 
 const darkTheme = createTheme({
   palette: {
@@ -34,20 +35,24 @@ const darkTheme = createTheme({
 });
 
 const ResponsiveDrawer: FC = () => {
-  const [filters, setFilters] = useState<Filters>({
-    isAdaptive: null,
-    technologies: [],
-    type: "All",
-  });
-
-  const { projects, isLoading, currentPage, setCurrentPage, totalPages } = useProjects(12, filters);
-
+  const [filters, setFilters] = useState<Filters>({ isAdaptive: null, technologies: [], type: "All" });
+  const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
-  const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
 
   const isMobile = useMediaQuery(darkTheme.breakpoints.down("sm"));
+
+  const { projects: allProjects, isLoading } = useProjects(filters);
+
+  const filteredProjects = allProjects.filter(({ title }) => title.toLowerCase().includes(search.trim().toLowerCase()));
+  const pageProjects = filteredProjects.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / PER_PAGE));
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filters]);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -62,7 +67,7 @@ const ResponsiveDrawer: FC = () => {
     }
   };
 
-  const handlePageChange = (event: ChangeEvent<unknown>, newPage: number) => setCurrentPage(newPage);
+  const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page);
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
 
@@ -78,8 +83,6 @@ const ResponsiveDrawer: FC = () => {
       color: theme.palette.text.secondary,
     },
   }));
-
-  const filteredProjects = projects.filter(({ title }) => title.toLowerCase().includes(search.trim().toLowerCase()));
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -98,7 +101,7 @@ const ResponsiveDrawer: FC = () => {
               <MenuIcon />
             </IconButton>
 
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h6" noWrap>
               Code Snippets by Tatyana Karpenko ({filteredProjects.length})
             </Typography>
 
@@ -191,10 +194,10 @@ const ResponsiveDrawer: FC = () => {
             >
               <CircularProgress />
             </Box>
-          ) : projects.length > 0 ? (
+          ) : filteredProjects.length > 0 ? (
             <>
               <Grid container spacing={{ xs: 2, md: 3 }} sx={{ justifyContent: "center" }}>
-                {filteredProjects.map((project) => (
+                {pageProjects.map((project) => (
                   <Grid key={project.id} size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
                     <StarBorder as="div" color="#7c4dff">
                       <ProjectCard project={project} />
@@ -211,7 +214,7 @@ const ResponsiveDrawer: FC = () => {
                   width: "100%",
                 }}
               >
-                <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
+                {totalPages > 1 && <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />}
               </Box>
             </>
           ) : (
@@ -228,8 +231,8 @@ const ResponsiveDrawer: FC = () => {
               <Typography variant="h5" color="text.secondary" sx={{ mb: 2 }}>
                 No projects found
               </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 400 }}>
-                Try adjusting your filters or resetting them to find more projects.
+              <Typography variant="body1" color="text.secondary">
+                Try adjusting your filters or search query to find more projects.
               </Typography>
             </Box>
           )}

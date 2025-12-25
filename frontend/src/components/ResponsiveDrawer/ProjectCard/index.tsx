@@ -14,7 +14,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
       <CardMedia component="img" height="250" image={project.previewImage?.url} alt={project.previewImage?.alt} />
 
       <CardContent sx={{ "&:last-child": { paddingBottom: 1 } }}>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5">
           {project.title}
         </Typography>
 
@@ -41,7 +41,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
           </Typography>
         </Box>
 
-        <Typography variant="body2" color="text.secondary" component="div">
+        <Typography variant="body2" color="text.secondary">
           Technologies:
           <List sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
             {project.technologies.map((technology) => (
