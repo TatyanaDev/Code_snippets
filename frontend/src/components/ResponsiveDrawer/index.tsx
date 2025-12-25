@@ -45,6 +45,7 @@ const ResponsiveDrawer: FC = () => {
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
   const isMobile = useMediaQuery(darkTheme.breakpoints.down("sm"));
 
@@ -78,6 +79,8 @@ const ResponsiveDrawer: FC = () => {
     },
   }));
 
+  const filteredProjects = projects.filter(({ title }) => title.toLowerCase().includes(search.trim().toLowerCase()));
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex" }}>
@@ -96,7 +99,7 @@ const ResponsiveDrawer: FC = () => {
             </IconButton>
 
             <Typography variant="h6" noWrap component="div">
-              Code Snippets by Tatyana Karpenko
+              Code Snippets by Tatyana Karpenko ({filteredProjects.length})
             </Typography>
 
             <Tooltip
@@ -159,7 +162,7 @@ const ResponsiveDrawer: FC = () => {
               },
             }}
           >
-            <DrawerComponent filters={filters} setFilters={setFilters} />
+            <DrawerComponent filters={filters} setFilters={setFilters} search={search} setSearch={setSearch} />
           </Drawer>
         </Box>
 
@@ -191,7 +194,7 @@ const ResponsiveDrawer: FC = () => {
           ) : projects.length > 0 ? (
             <>
               <Grid container spacing={{ xs: 2, md: 3 }} sx={{ justifyContent: "center" }}>
-                {projects.map((project) => (
+                {filteredProjects.map((project) => (
                   <Grid key={project.id} size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
                     <StarBorder as="div" color="#7c4dff">
                       <ProjectCard project={project} />

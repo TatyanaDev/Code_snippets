@@ -1,4 +1,4 @@
-import { Box, Chip, CircularProgress, Divider, FormControl, FormControlLabel, FormLabel, InputLabel, List, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, Toolbar, Typography, useTheme } from "@mui/material";
+import { Box, Chip, CircularProgress, Divider, FormControl, FormControlLabel, FormLabel, InputLabel, List, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField, Typography, useTheme } from "@mui/material";
 import { FC, ChangeEvent } from "react";
 import useTechnologies from "../../../hooks/useTechnologies";
 import { Technology, Filters } from "../../../interfaces";
@@ -6,9 +6,11 @@ import { Technology, Filters } from "../../../interfaces";
 interface DrawerComponentProps {
   filters: Filters;
   setFilters: (filters: Filters) => void;
+  search: string;
+  setSearch: (value: string) => void;
 }
 
-const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters }) => {
+const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search, setSearch }) => {
   const { technologies, isLoading } = useTechnologies();
   const theme = useTheme();
 
@@ -29,9 +31,11 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters }) => {
 
   return (
     <Box sx={{ paddingX: 2 }}>
-      <Toolbar />
+      <Box component="form" noValidate autoComplete="off" role="search" sx={{ marginTop: 2 }}>
+        <TextField id="search-projects" label="Search" variant="outlined" value={search} onChange={({ target }) => setSearch(target.value)} fullWidth />
+      </Box>
 
-      <Divider sx={{ marginBottom: 2 }} />
+      <Divider sx={{ marginY: 2 }} />
 
       <Typography variant="h6" noWrap sx={{ marginBottom: 2 }}>
         Filters
