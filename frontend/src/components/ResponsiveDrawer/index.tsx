@@ -1,4 +1,4 @@
-import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination, Tooltip, Chip, styled } from "@mui/material";
+import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination, Tooltip, Chip, styled, useMediaQuery } from "@mui/material";
 import { useState, ChangeEvent, FC } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
@@ -34,11 +34,19 @@ const darkTheme = createTheme({
 });
 
 const ResponsiveDrawer: FC = () => {
-  const [filters, setFilters] = useState<Filters>({ isAdaptive: null, technologies: [], type: "All" });
+  const [filters, setFilters] = useState<Filters>({
+    isAdaptive: null,
+    technologies: [],
+    type: "All",
+  });
+
   const { projects, isLoading, currentPage, setCurrentPage, totalPages } = useProjects(12, filters);
+
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const isMobile = useMediaQuery(darkTheme.breakpoints.down("sm"));
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -75,11 +83,18 @@ const ResponsiveDrawer: FC = () => {
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
 
-        <AppBar position="fixed" sx={{ width: { sm: `calc(100% - ${drawerWidth}px)` }, ml: { sm: `${drawerWidth}px` } }}>
+        <AppBar
+          position="fixed"
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+          }}
+        >
           <Toolbar sx={{ justifyContent: "space-between" }}>
             <IconButton aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
               <MenuIcon />
             </IconButton>
+
             <Typography variant="h6" noWrap component="div">
               Code Snippets by Tatyana Karpenko
             </Typography>
@@ -114,26 +129,63 @@ const ResponsiveDrawer: FC = () => {
               disableHoverListener
               disableTouchListener
             >
-              <Chip icon={<InfoIcon style={{ color: "#e0e0e0" }} />} label="Information" onClick={toggleTooltip} color={tooltipOpen ? "primary" : "default"} variant="outlined" clickable sx={{ backgroundColor: tooltipOpen ? "text.secondary" : undefined, borderRadius: 2 }} />
+              <Chip
+                icon={<InfoIcon style={{ color: "#e0e0e0" }} />}
+                label="Information"
+                onClick={toggleTooltip}
+                color={tooltipOpen ? "primary" : "default"}
+                variant="outlined"
+                clickable
+                sx={{
+                  backgroundColor: tooltipOpen ? "text.secondary" : undefined,
+                  borderRadius: 2,
+                }}
+              />
             </Tooltip>
           </Toolbar>
         </AppBar>
 
         <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="filters">
-          <Drawer variant="temporary" open={mobileOpen} onTransitionEnd={handleDrawerTransitionEnd} onClose={handleDrawerClose} sx={{ display: { xs: "block", sm: "none" }, "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth } }} slotProps={{ root: { keepMounted: true } }}>
-            <DrawerComponent filters={filters} setFilters={setFilters} />
-          </Drawer>
-
-          <Drawer variant="permanent" sx={{ display: { xs: "none", sm: "block" }, "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth } }} open>
+          <Drawer
+            variant={isMobile ? "temporary" : "permanent"}
+            open={isMobile ? mobileOpen : true}
+            onClose={isMobile ? handleDrawerClose : undefined}
+            onTransitionEnd={isMobile ? handleDrawerTransitionEnd : undefined}
+            slotProps={isMobile ? { root: { keepMounted: true } } : undefined}
+            sx={{
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+          >
             <DrawerComponent filters={filters} setFilters={setFilters} />
           </Drawer>
         </Box>
 
-        <Box component="main" sx={{ width: { sm: `calc(100% - ${drawerWidth}px)` }, justifyContent: "space-between", flexDirection: "column", minHeight: "100vh", display: "flex", flexGrow: 1, p: 3 }}>
+        <Box
+          component="main"
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            justifyContent: "space-between",
+            flexDirection: "column",
+            minHeight: "100vh",
+            display: "flex",
+            flexGrow: 1,
+            p: 3,
+          }}
+        >
           <Toolbar />
 
           {isLoading ? (
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 112px)" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "calc(100vh - 112px)",
+              }}
+            >
               <CircularProgress />
             </Box>
           ) : projects.length > 0 ? (
@@ -147,12 +199,29 @@ const ResponsiveDrawer: FC = () => {
                   </Grid>
                 ))}
               </Grid>
-              <Box sx={{ mt: 3, display: "flex", justifyContent: "center", width: "100%" }}>
+
+              <Box
+                sx={{
+                  mt: 3,
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
                 <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
               </Box>
             </>
           ) : (
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "calc(100vh - 112px)", textAlign: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "calc(100vh - 112px)",
+                textAlign: "center",
+              }}
+            >
               <Typography variant="h5" color="text.secondary" sx={{ mb: 2 }}>
                 No projects found
               </Typography>
