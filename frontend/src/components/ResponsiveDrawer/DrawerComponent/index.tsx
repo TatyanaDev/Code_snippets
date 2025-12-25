@@ -37,11 +37,11 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search
 
       <Divider sx={{ marginY: 2 }} />
 
-      <Typography variant="h6" noWrap sx={{ marginBottom: 2 }}>
+      <Typography variant="h6" noWrap>
         Filters
       </Typography>
 
-      <Divider sx={{ marginBottom: 2 }} />
+      <Divider sx={{ marginY: 2 }} />
 
       <Typography sx={{ marginBottom: 1, color: "text.secondary" }}>Technologies</Typography>
 
@@ -50,16 +50,16 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search
           <CircularProgress />
         </Box>
       ) : (
-        <List sx={{ display: "flex", flexWrap: "wrap", gap: 1, marginBottom: 2 }}>
+        <List sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
           {technologies.map((technology: Technology) => (
             <Chip key={technology.id} icon={<img alt={technology.title} src={technology.url} style={{ width: 20 }} />} label={technology.title} onClick={() => handleTechnologyClick(technology.id)} color={filters.technologies.some(({ id }) => id === technology.id) ? "primary" : "default"} variant="outlined" clickable sx={{ backgroundColor: filters.technologies.some(({ id }) => id === technology.id) ? theme.palette.text.secondary : undefined, borderRadius: 2 }} />
           ))}
         </List>
       )}
 
-      <Divider sx={{ marginBottom: 2 }} />
+      <Divider sx={{ marginBottom: 2, marginTop: 1 }} />
 
-      <FormControl component="fieldset" fullWidth sx={{ marginBottom: 2 }}>
+      <FormControl component="fieldset" fullWidth>
         <FormLabel component="legend">Is Adaptive</FormLabel>
         <RadioGroup value={filters.isAdaptive ?? ""} name="adaptive-group" onChange={handleAdaptiveChange} aria-label="adaptive">
           <FormControlLabel value="" control={<Radio />} label="All" />
@@ -68,11 +68,13 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search
         </RadioGroup>
       </FormControl>
 
-      <Divider sx={{ marginBottom: 3 }} />
+      <Divider sx={{ marginBottom: 2, marginTop: 1 }} />
 
-      <FormControl fullWidth>
-        <InputLabel id="type-label">Type</InputLabel>
-        <Select labelId="type-label" value={filters.type} onChange={handleTypeChange} label="Type">
+      <FormControl sx={{ marginBottom: 2 }} fullWidth>
+        <InputLabel id="type-label" htmlFor="type-select">
+          Type
+        </InputLabel>
+        <Select id="type-select" name="type" labelId="type-label" value={filters.type} onChange={handleTypeChange} label="Type">
           <MenuItem value="All">All</MenuItem>
           <MenuItem value="frontend">Frontend</MenuItem>
           <MenuItem value="backend">Backend</MenuItem>
