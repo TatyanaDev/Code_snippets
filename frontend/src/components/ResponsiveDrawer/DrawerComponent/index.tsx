@@ -32,7 +32,7 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search
   return (
     <Box sx={{ paddingX: 2 }}>
       <Box component="form" noValidate autoComplete="off" role="search" sx={{ marginTop: 2 }}>
-        <TextField id="search-projects" label="Search" variant="outlined" value={search} onChange={({ target }) => setSearch(target.value)} fullWidth />
+        <TextField id="search-projects" label="Search projects" variant="outlined" value={search} onChange={({ target }) => setSearch(target.value)} fullWidth />
       </Box>
 
       <Divider sx={{ marginY: 2 }} />
