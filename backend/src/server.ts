@@ -13,11 +13,7 @@ app.prepare().then(() => {
 
   server.use(
     cors({
-      origin: [
-        'http://localhost:3000',
-        'https://tatyanadev-dev-sketches.netlify.app',
-        'https://tatyanadev-code-snippets.netlify.app',
-      ],
+      origin: ['http://localhost:3000', 'https://tatyanadev-code-snippets.netlify.app'],
     }),
   )
 
