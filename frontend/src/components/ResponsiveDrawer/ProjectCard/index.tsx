@@ -43,12 +43,13 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
 
         <Typography variant="body2" color="text.secondary">
           Technologies:
-          <List sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-            {project.technologies.map((technology) => (
-              <Chip key={technology.id} icon={<img alt={technology.title} src={technology.url} style={{ width: 20, height: 20 }} />} label={technology.title} variant="outlined" sx={{ borderRadius: 2 }} />
-            ))}
-          </List>
         </Typography>
+
+        <List sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+          {project.technologies.map((technology) => (
+            <Chip key={technology.id} icon={<img alt={technology.title} src={technology.url} style={{ width: 20 }} />} label={technology.title} variant="outlined" sx={{ borderRadius: 2 }} />
+          ))}
+        </List>
       </CardContent>
     </Card>
   );

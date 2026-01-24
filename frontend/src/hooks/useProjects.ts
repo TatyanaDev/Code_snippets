@@ -45,7 +45,7 @@ const useProjects = (filters: Filters) => {
       const queryParams = stringify({ where: query, limit: 0 }, { addQueryPrefix: true, encode: true });
 
       try {
-        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/projects${queryParams}`);
+        const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/projects${queryParams}`);
 
         setProjects(data.docs);
       } catch (error) {

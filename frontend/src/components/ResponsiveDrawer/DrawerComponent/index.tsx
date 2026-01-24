@@ -8,9 +8,10 @@ interface DrawerComponentProps {
   setFilters: (filters: Filters) => void;
   search: string;
   setSearch: (value: string) => void;
+  setCurrentPage: (page: number) => void;
 }
 
-const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search, setSearch }) => {
+const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search, setSearch, setCurrentPage }) => {
   const { technologies, isLoading } = useTechnologies();
   const theme = useTheme();
 
@@ -19,20 +20,31 @@ const DrawerComponent: FC<DrawerComponentProps> = ({ filters, setFilters, search
     const newTechnologies = isTechnologySelected ? filters.technologies.filter(({ id }) => id !== technologyId) : [...filters.technologies, technologies.find(({ id }) => id === technologyId)!];
 
     setFilters({ ...filters, technologies: newTechnologies });
+    setCurrentPage(1);
   };
 
-  const handleTypeChange = (event: SelectChangeEvent<string>) => setFilters({ ...filters, type: event.target.value });
+  const handleTypeChange = ({ target }: SelectChangeEvent<string>) => {
+    setFilters({ ...filters, type: target.value });
+    setCurrentPage(1);
+  };
 
-  const handleAdaptiveChange = (event: ChangeEvent<HTMLInputElement>) =>
+  const handleAdaptiveChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setFilters({
       ...filters,
-      isAdaptive: event.target.value === "true" ? true : event.target.value === "false" ? false : null,
+      isAdaptive: target.value === "true" ? true : target.value === "false" ? false : null,
     });
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setSearch(target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <Box sx={{ paddingX: 2 }}>
       <Box component="form" noValidate autoComplete="off" role="search" sx={{ marginTop: 2 }}>
-        <TextField id="search-projects" label="Search projects..." variant="outlined" value={search} onChange={({ target }) => setSearch(target.value)} fullWidth />
+        <TextField id="search-projects" label="Search projects..." variant="outlined" value={search} onChange={handleSearchChange} fullWidth />
       </Box>
 
       <Divider sx={{ marginY: 2 }} />

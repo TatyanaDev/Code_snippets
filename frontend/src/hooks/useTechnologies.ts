@@ -15,7 +15,7 @@ const useTechnologies = () => {
       const queryParams = stringify({ limit: 0 }, { addQueryPrefix: true, encode: true });
 
       try {
-        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/technologies${queryParams}`);
+        const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/technologies${queryParams}`);
 
         setTechnologies(data.docs);
       } catch (error) {

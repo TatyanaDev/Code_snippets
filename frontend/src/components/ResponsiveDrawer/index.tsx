@@ -1,5 +1,5 @@
-import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid2 as Grid, CircularProgress, Pagination, Tooltip, Chip, styled, useMediaQuery } from "@mui/material";
-import { useState, ChangeEvent, FC, useEffect } from "react";
+import { CssBaseline, IconButton, Typography, Toolbar, AppBar, Drawer, Box, ThemeProvider, createTheme, Grid, CircularProgress, Pagination, Tooltip, Chip, styled, useMediaQuery } from "@mui/material";
+import { useState, ChangeEvent, FC } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import InfoIcon from "@mui/icons-material/Info";
 import useProjects from "../../hooks/useProjects";
@@ -34,6 +34,19 @@ const darkTheme = createTheme({
   },
 });
 
+const CustomTypography = styled(Typography)(({ theme }) => ({
+  fontSize: "0.875rem",
+  "& span": {
+    color: theme.palette.primary.main,
+  },
+  "& span:not(:first-of-type)": {
+    color: theme.palette.text.secondary,
+  },
+  "& a": {
+    color: theme.palette.text.secondary,
+  },
+}));
+
 const ResponsiveDrawer: FC = () => {
   const [filters, setFilters] = useState<Filters>({ isAdaptive: null, technologies: [], type: "All" });
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
@@ -49,10 +62,6 @@ const ResponsiveDrawer: FC = () => {
   const filteredProjects = allProjects.filter(({ title }) => title.toLowerCase().includes(search.trim().toLowerCase()));
   const pageProjects = filteredProjects.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
   const totalPages = Math.max(1, Math.ceil(filteredProjects.length / PER_PAGE));
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, filters]);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -70,19 +79,6 @@ const ResponsiveDrawer: FC = () => {
   const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page);
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
-
-  const CustomTypography = styled(Typography)(({ theme }) => ({
-    fontSize: "0.875rem",
-    "& span": {
-      color: theme.palette.primary.main,
-    },
-    "& span:not(:first-of-type)": {
-      color: theme.palette.text.secondary,
-    },
-    "& a": {
-      color: theme.palette.text.secondary,
-    },
-  }));
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -165,7 +161,7 @@ const ResponsiveDrawer: FC = () => {
               },
             }}
           >
-            <DrawerComponent filters={filters} setFilters={setFilters} search={search} setSearch={setSearch} />
+            <DrawerComponent filters={filters} setFilters={setFilters} search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
           </Drawer>
         </Box>
 
