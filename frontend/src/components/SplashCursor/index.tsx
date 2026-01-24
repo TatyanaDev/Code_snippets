@@ -37,6 +37,15 @@ interface Pointer {
   color: ColorRGB;
 }
 
+interface OESTextureHalfFloat {
+  HALF_FLOAT_OES: number;
+}
+
+type TextureFormat = {
+  internalFormat: number;
+  format: number;
+} | null;
+
 function pointerPrototype(): Pointer {
   return {
     id: -1,
@@ -60,11 +69,11 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
     if (!canvas) return; // Guard canvas early
 
     // Pointer and config setup
-    let pointers: Pointer[] = [pointerPrototype()];
+    const pointers: Pointer[] = [pointerPrototype()];
 
     // All these are guaranteed numbers due to destructuring defaults
     // So we cast them to remove TS warnings:
-    let config = {
+    const config = {
       SIM_RESOLUTION: SIM_RESOLUTION!,
       DYE_RESOLUTION: DYE_RESOLUTION!,
       CAPTURE_RESOLUTION: CAPTURE_RESOLUTION!,
@@ -128,11 +137,11 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
 
       gl.clearColor(0, 0, 0, 1);
 
-      const halfFloatTexType = isWebGL2 ? (gl as WebGL2RenderingContext).HALF_FLOAT : (halfFloat && (halfFloat as any).HALF_FLOAT_OES) || 0;
+      const halfFloatTexType = isWebGL2 ? (gl as WebGL2RenderingContext).HALF_FLOAT : (halfFloat && (halfFloat as OESTextureHalfFloat).HALF_FLOAT_OES) || 0;
 
-      let formatRGBA: any;
-      let formatRG: any;
-      let formatR: any;
+      let formatRGBA: TextureFormat;
+      let formatRG: TextureFormat;
+      let formatR: TextureFormat;
 
       if (isWebGL2) {
         formatRGBA = getSupportedFormat(gl, (gl as WebGL2RenderingContext).RGBA16F, gl.RGBA, halfFloatTexType);
@@ -240,7 +249,7 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
     }
 
     function getUniforms(program: WebGLProgram) {
-      let uniforms: Record<string, WebGLUniformLocation | null> = {};
+      const uniforms: Record<string, WebGLUniformLocation | null> = {};
       const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
       for (let i = 0; i < uniformCount; i++) {
         const uniformInfo = gl.getActiveUniform(program, i);
@@ -251,6 +260,7 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
       return uniforms;
     }
 
+    // eslint-disable-next-line react-hooks/unsupported-syntax
     class Program {
       program: WebGLProgram | null;
       uniforms: Record<string, WebGLUniformLocation | null>;
@@ -265,6 +275,7 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
       }
     }
 
+    // eslint-disable-next-line react-hooks/unsupported-syntax
     class Material {
       vertexShader: WebGLShader | null;
       fragmentShaderSource: string;
@@ -666,7 +677,7 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
     const curlProgram = new Program(baseVertexShader, curlShader);
     const vorticityProgram = new Program(baseVertexShader, vorticityShader);
     const pressureProgram = new Program(baseVertexShader, pressureShader);
-    const gradienSubtractProgram = new Program(baseVertexShader, gradientSubtractShader);
+    const gradientSubtractProgram = new Program(baseVertexShader, gradientSubtractShader);
     const displayMaterial = new Material(baseVertexShader, displayShaderSource);
 
     // -------------------- FBO creation --------------------
@@ -740,7 +751,7 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
       return target;
     }
 
-    function initFramebuffers() {
+    function initFrameBuffers() {
       const simRes = getResolution(config.SIM_RESOLUTION!);
       const dyeRes = getResolution(config.DYE_RESOLUTION!);
 
@@ -750,6 +761,10 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
       const r = ext.formatR;
       const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
       gl.disable(gl.BLEND);
+
+      if (!rgba || !rg || !r) {
+        throw new Error("Required WebGL texture formats are not supported.");
+      }
 
       if (!dye) {
         dye = createDoubleFBO(dyeRes.width, dyeRes.height, rgba.internalFormat, rgba.format, texType, filtering);
@@ -778,7 +793,7 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
       const w = gl.drawingBufferWidth;
       const h = gl.drawingBufferHeight;
       const aspectRatio = w / h;
-      let aspect = aspectRatio < 1 ? 1 / aspectRatio : aspectRatio;
+      const aspect = aspectRatio < 1 ? 1 / aspectRatio : aspectRatio;
       const min = Math.round(resolution);
       const max = Math.round(resolution * aspect);
       if (w > h) {
@@ -794,14 +809,14 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
 
     // -------------------- Simulation Setup --------------------
     updateKeywords();
-    initFramebuffers();
+    initFrameBuffers();
 
     let lastUpdateTime = Date.now();
     let colorUpdateTimer = 0.0;
 
     function updateFrame() {
       const dt = calcDeltaTime();
-      if (resizeCanvas()) initFramebuffers();
+      if (resizeCanvas()) initFrameBuffers();
       updateColors(dt);
       applyInputs();
       step(dt);
@@ -918,15 +933,15 @@ export default function SplashCursor({ SIM_RESOLUTION = 128, DYE_RESOLUTION = 14
       }
 
       // Gradient Subtract
-      gradienSubtractProgram.bind();
-      if (gradienSubtractProgram.uniforms.texelSize) {
-        gl.uniform2f(gradienSubtractProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+      gradientSubtractProgram.bind();
+      if (gradientSubtractProgram.uniforms.texelSize) {
+        gl.uniform2f(gradientSubtractProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
       }
-      if (gradienSubtractProgram.uniforms.uPressure) {
-        gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressure.read.attach(0));
+      if (gradientSubtractProgram.uniforms.uPressure) {
+        gl.uniform1i(gradientSubtractProgram.uniforms.uPressure, pressure.read.attach(0));
       }
-      if (gradienSubtractProgram.uniforms.uVelocity) {
-        gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocity.read.attach(1));
+      if (gradientSubtractProgram.uniforms.uVelocity) {
+        gl.uniform1i(gradientSubtractProgram.uniforms.uVelocity, velocity.read.attach(1));
       }
       blit(velocity.write);
       velocity.swap();
