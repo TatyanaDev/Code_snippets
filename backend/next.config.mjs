@@ -6,7 +6,7 @@ import path from 'path'
 
 const nextConfig = {
   outputFileTracingRoot: path.join(path.dirname(fileURLToPath(import.meta.url))),
-  basePath: process.env.NODE_ENV === 'production' ? '/dev-sketches' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/code-snippets' : '',
   reactStrictMode: true,
   devIndicators: false,
   trailingSlash: true,
