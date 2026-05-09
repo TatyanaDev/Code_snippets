@@ -4,12 +4,12 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "next build && tsc --project tsconfig.server.json",
+    "build": "cross-env NODE_ENV=production next build && tsc --project tsconfig.server.json",
     "dev": "nodemon",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_ENV=production node dist/server.js"
+    "start": "cross-env NODE_ENV=production node --no-warnings dist/server.js"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.72.0",

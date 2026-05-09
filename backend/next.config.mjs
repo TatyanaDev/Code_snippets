@@ -9,6 +9,7 @@ const nextConfig = {
   basePath: process.env.NODE_ENV === 'production' ? '/code-snippets' : '',
   reactStrictMode: true,
   devIndicators: false,
+  output: 'standalone',
   trailingSlash: true,
 }
 

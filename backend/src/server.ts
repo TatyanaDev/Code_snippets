@@ -14,20 +14,16 @@ app.prepare().then(() => {
   server.use(
     cors({
       origin: ['http://localhost:3000', 'https://tatyanadev-code-snippets.netlify.app'],
+      credentials: true,
     }),
   )
 
   server.all('*', (req, res) => {
     const parsedUrl = parse(req.url!, true)
-
-    handle(req, res, parsedUrl)
+    return handle(req, res, parsedUrl)
   })
 
   server.listen(port, () =>
-    console.log(
-      `> Server listening at http://localhost:${port} as ${
-        dev ? 'development' : process.env.NODE_ENV
-      }`,
-    ),
+    console.log(`🚀 Server listening at http://localhost:${port} as ${process.env.NODE_ENV}`),
   )
 })
